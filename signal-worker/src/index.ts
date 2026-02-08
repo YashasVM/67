@@ -33,5 +33,5 @@ export default {
 } satisfies ExportedHandler<Env>;
 
 interface Env {
-  ROOM: DurableObjectNamespace<Room>;
+  ROOM: DurableObjectNamespace;
 }
