@@ -122,7 +122,8 @@ class App {
       if (evt.t === 'full') {
         this.state.error = 'Room is full (max 2 people).';
         this.state.status = undefined;
-        this.render();
+        // Bounce back to landing and release devices.
+        this.leave();
         return;
       }
       if (evt.t === 'peer-joined') {
@@ -134,7 +135,11 @@ class App {
       }
       if (evt.t === 'peer-left') {
         this.state.status = 'Waiting for peer…';
-        this.rtc?.setPeerPresent(false);
+        // Reset RTC so a reconnect renegotiates cleanly.
+        this.rtc?.close();
+        this.rtc = undefined;
+        stopStream(this.remote);
+        this.remote = undefined;
         this.render();
       }
       if (evt.t === 'relay') {

@@ -29,12 +29,18 @@ export class RtcSession {
     });
 
     this.pc.addEventListener('track', (e) => {
-      for (const track of e.streams[0]?.getTracks?.() ?? []) {
-        this.remote.addTrack(track);
+      const s = e.streams?.[0];
+      if (s) {
+        this.remote = s;
+        this.ev.onRemoteStream?.(this.remote);
+        return;
       }
-      // If browser doesn't populate e.streams, fall back to single-track.
-      if (!e.streams?.length) this.remote.addTrack(e.track);
-      this.ev.onRemoteStream?.(this.remote);
+
+      // Safari can omit streams; build our own.
+      if (!this.remote.getTracks().some((t) => t.id === e.track.id)) {
+        this.remote.addTrack(e.track);
+        this.ev.onRemoteStream?.(this.remote);
+      }
     });
 
     this.pc.addEventListener('icecandidate', (e) => {
