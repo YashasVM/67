@@ -151,6 +151,12 @@ button, input { font: inherit; }
   align-items: center;
 }
 
+.btnGroup {
+  display: grid;
+  grid-auto-flow: column;
+  gap: 10px;
+}
+
 .codeInput {
   width: 100%;
   border-radius: 14px;
@@ -166,6 +172,11 @@ button, input { font: inherit; }
 .codeInput:focus {
   border-color: rgba(119,255,107,0.45);
   box-shadow: 0 0 0 4px rgba(119,255,107,0.10);
+}
+
+.codeInput[readonly] {
+  cursor: default;
+  background: rgba(0,0,0,0.28);
 }
 
 .actions { padding: 10px 6px 0; display: grid; }

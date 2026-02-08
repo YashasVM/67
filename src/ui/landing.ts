@@ -12,6 +12,7 @@ type LandingState = {
 type LandingHandlers = {
   onMode: (mode: Mode) => void;
   onRegenerate: () => void;
+  onCopyCode: () => void;
   onCodeInput: (code: string) => void;
   onPrimary: () => void;
 };
@@ -59,15 +60,30 @@ export function renderLanding(opts: { state: LandingState } & LandingHandlers) {
         spellcheck: 'false',
         value: state.code,
         placeholder: 'ABC123',
+        readonly: createActive,
         oninput: (e: Event) => opts.onCodeInput((e.target as HTMLInputElement).value)
+        ,
+        onkeydown: (e: KeyboardEvent) => {
+          if (e.key === 'Enter') opts.onPrimary();
+        }
       }),
       createActive
-        ? el('button', {
-            class: 'btn btn--ghost',
-            type: 'button',
-            text: 'New',
-            onclick: () => opts.onRegenerate()
-          })
+        ? el(
+            'div',
+            { class: 'btnGroup' },
+            el('button', {
+              class: 'btn btn--ghost',
+              type: 'button',
+              text: 'Copy',
+              onclick: () => opts.onCopyCode()
+            }),
+            el('button', {
+              class: 'btn btn--ghost',
+              type: 'button',
+              text: 'New',
+              onclick: () => opts.onRegenerate()
+            })
+          )
         : null
     )
   );
@@ -75,7 +91,7 @@ export function renderLanding(opts: { state: LandingState } & LandingHandlers) {
   const primary = el('button', {
     class: 'btn btn--primary',
     type: 'button',
-    text: createActive ? 'Start' : 'Connect',
+    text: createActive ? 'Start call' : 'Connect',
     onclick: () => opts.onPrimary()
   });
 

@@ -73,6 +73,7 @@ class App {
               this.state.code = generateCode(6);
               this.render();
             },
+            onCopyCode: () => void this.copyCode(),
             onCodeInput: (code) => {
               this.state.code = normalizeCode(code);
             },
