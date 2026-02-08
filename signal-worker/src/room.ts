@@ -1,5 +1,7 @@
+type Role = 'a' | 'b';
+
 type WireMsg =
-  | { t: 'hello'; v: 1 }
+  | { t: 'hello'; v: 1; role: Role; peers: number }
   | { t: 'peer-joined' }
   | { t: 'peer-left' }
   | { t: 'full' }
@@ -7,6 +9,7 @@ type WireMsg =
 
 export class Room implements DurableObject {
   private sessions = new Set<WebSocket>();
+  private roles = new Map<WebSocket, Role>();
 
   constructor(private state: DurableObjectState) {
     // Keep the constructor minimal; the room is purely an in-memory relay.
@@ -35,7 +38,12 @@ export class Room implements DurableObject {
     server.accept();
     this.sessions.add(server);
 
-    server.send(JSON.stringify({ t: 'hello', v: 1 } satisfies WireMsg));
+    const role: Role = this.sessions.size === 1 ? 'a' : 'b';
+    this.roles.set(server, role);
+
+    server.send(
+      JSON.stringify({ t: 'hello', v: 1, role, peers: this.sessions.size } satisfies WireMsg)
+    );
 
     if (this.sessions.size === 2) {
       this.broadcast({ t: 'peer-joined' });
@@ -55,6 +63,7 @@ export class Room implements DurableObject {
 
     const onClose = () => {
       if (!this.sessions.delete(server)) return;
+      this.roles.delete(server);
       this.broadcast({ t: 'peer-left' });
     };
 
