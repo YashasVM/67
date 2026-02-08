@@ -113,6 +113,9 @@ class App {
       if (evt.t === 'hello') {
         this.role = evt.role;
         this.state.status = evt.peers >= 2 ? 'Peer connected. Negotiating…' : 'Waiting for peer…';
+        this.ensureRtc();
+        this.rtc?.setPeerPresent(evt.peers >= 2);
+        void this.rtc?.maybeStart();
         this.render();
         return;
       }
@@ -190,6 +193,7 @@ class App {
   }
 
   private leave() {
+    if (this.signal) this.signal.onEvent = undefined;
     this.signal?.close();
     this.signal = undefined;
     this.rtc?.close();

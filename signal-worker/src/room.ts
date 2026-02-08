@@ -1,3 +1,5 @@
+/// <reference types="@cloudflare/workers-types" />
+
 type Role = 'a' | 'b';
 
 type WireMsg =
