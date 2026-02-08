@@ -1,32 +1,125 @@
 import { el } from './dom';
 
-export function renderLanding() {
-  const brand = el('div', { class: 'brand' },
+type Mode = 'create' | 'join';
+
+type LandingState = {
+  mode: Mode;
+  code: string;
+  status?: string;
+  error?: string;
+};
+
+type LandingHandlers = {
+  onMode: (mode: Mode) => void;
+  onRegenerate: () => void;
+  onCodeInput: (code: string) => void;
+  onPrimary: () => void;
+};
+
+export function renderLanding(opts: { state: LandingState } & LandingHandlers) {
+  const { state } = opts;
+
+  const brand = el(
+    'div',
+    { class: 'brand' },
     el('div', { class: 'logo', text: '67.' }),
-    el('div', { class: 'tag', text: 'P2P video calls. No login. No servers storing your media.' })
+    el('div', { class: 'tag', text: 'P2P video calls. No login. No storage.' })
   );
 
-  const card = el('div', { class: 'card', 'data-view': 'landing' },
-    el('div', { class: 'tabs' },
-      el('button', { class: 'tab tab--active', type: 'button', text: 'Create' }),
-      el('button', { class: 'tab', type: 'button', text: 'Join' })
-    ),
-    el('div', { class: 'slot' },
-      el('div', { class: 'drop' },
-        el('div', { class: 'plus', text: '+' }),
-        el('div', { class: 'dropText' },
-          el('div', { class: 'muted', text: 'Create a room code, then share it.' }),
-          el('div', { class: 'muted2', text: 'WebRTC + end-to-end encrypted media.' })
-        )
-      )
+  const createActive = state.mode === 'create';
+
+  const tabs = el(
+    'div',
+    { class: 'tabs' },
+    el('button', {
+      class: `tab ${createActive ? 'tab--active' : ''}`,
+      type: 'button',
+      text: 'Create',
+      onclick: () => opts.onMode('create')
+    }),
+    el('button', {
+      class: `tab ${!createActive ? 'tab--active' : ''}`,
+      type: 'button',
+      text: 'Join',
+      onclick: () => opts.onMode('join')
+    })
+  );
+
+  const codeRow = el(
+    'div',
+    { class: 'codeRow' },
+    el('label', { class: 'label', text: createActive ? 'Room code' : 'Enter code' }),
+    el(
+      'div',
+      { class: 'codeControls' },
+      el('input', {
+        class: 'codeInput',
+        inputmode: 'text',
+        autocomplete: 'off',
+        spellcheck: 'false',
+        value: state.code,
+        placeholder: 'ABC123',
+        oninput: (e: Event) => opts.onCodeInput((e.target as HTMLInputElement).value)
+      }),
+      createActive
+        ? el('button', {
+            class: 'btn btn--ghost',
+            type: 'button',
+            text: 'New',
+            onclick: () => opts.onRegenerate()
+          })
+        : null
     )
   );
 
-  const footer = el('div', { class: 'footer' },
+  const primary = el('button', {
+    class: 'btn btn--primary',
+    type: 'button',
+    text: createActive ? 'Start' : 'Connect',
+    onclick: () => opts.onPrimary()
+  });
+
+  const note = el(
+    'div',
+    { class: 'note' },
+    el('div', { class: 'noteCaps', text: 'TIP' }),
+    el('div', { class: 'noteText', text: createActive ? 'Share the code. The other person joins with it.' : 'Ask the other person for their code.' })
+  );
+
+  const status = state.status
+    ? el('div', { class: 'status' }, el('div', { class: 'statusText', text: state.status }))
+    : null;
+
+  const error = state.error
+    ? el('div', { class: 'error' }, el('div', { class: 'errorText', text: state.error }))
+    : null;
+
+  const card = el('div', { class: 'card', 'data-view': 'landing' },
+    tabs,
+    el('div', { class: 'slot' },
+      codeRow,
+      el('div', { class: 'actions' }, primary),
+      note,
+      status,
+      error
+    )
+  );
+
+  const footer = el(
+    'div',
+    { class: 'footer' },
     el('div', { class: 'footerCaps', text: 'END-TO-END  /  FAST P2P  /  NO STORAGE' }),
-    el('div', { class: 'credit' },
+    el(
+      'div',
+      { class: 'credit' },
       'Made by ',
-      el('a', { href: 'https://github.com/YashasVM', target: '_blank', rel: 'noreferrer', class: 'creditLink', text: '@Yashas.VM' })
+      el('a', {
+        href: 'https://github.com/YashasVM',
+        target: '_blank',
+        rel: 'noreferrer',
+        class: 'creditLink',
+        text: '@Yashas.VM'
+      })
     )
   );
 

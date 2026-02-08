@@ -133,6 +133,109 @@ button, input { font: inherit; }
 
 .slot { padding: 18px 2px 6px; }
 
+.label {
+  display: block;
+  color: rgba(255,255,255,0.34);
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin: 0 0 10px;
+}
+
+.codeRow { padding: 6px 6px 10px; }
+.codeControls {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.codeInput {
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(0,0,0,0.35);
+  padding: 16px 16px;
+  color: rgba(255,255,255,0.92);
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  outline: none;
+}
+.codeInput:focus {
+  border-color: rgba(119,255,107,0.45);
+  box-shadow: 0 0 0 4px rgba(119,255,107,0.10);
+}
+
+.actions { padding: 10px 6px 0; display: grid; }
+
+.btn {
+  appearance: none;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.78);
+  padding: 14px 16px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+.btn:hover { transform: translateY(-1px); border-color: rgba(255,255,255,0.16); }
+.btn:active { transform: translateY(0); }
+
+.btn--primary {
+  background: var(--accent);
+  border-color: rgba(0,0,0,0.0);
+  color: rgba(0,0,0,0.86);
+  box-shadow: 0 12px 40px rgba(119,255,107,0.16);
+}
+
+.btn--ghost {
+  background: rgba(255,255,255,0.02);
+}
+
+.note {
+  margin: 16px 6px 0;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.20);
+  padding: 12px 12px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: start;
+}
+.noteCaps {
+  color: rgba(0,0,0,0.82);
+  background: rgba(119,255,107,0.9);
+  border-radius: 999px;
+  padding: 4px 8px;
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.12em;
+  font-size: 10px;
+}
+.noteText { color: rgba(255,255,255,0.52); font-size: 13px; line-height: 1.35; }
+
+.status, .error { margin: 14px 6px 0; padding: 12px 12px; border-radius: 14px; }
+.status {
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+  color: rgba(255,255,255,0.62);
+}
+.error {
+  border: 1px solid rgba(255,92,92,0.20);
+  background: rgba(255,92,92,0.06);
+  color: rgba(255,255,255,0.82);
+}
+
+@media (max-width: 520px) {
+  .codeControls { grid-template-columns: 1fr; }
+}
+
 .drop {
   border: 1px dashed rgba(255,255,255,0.14);
   border-radius: 16px;

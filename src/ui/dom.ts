@@ -1,6 +1,6 @@
 type Child = Node | string | null | undefined | false;
 
-type Props = Record<string, string | number | boolean | undefined>;
+type Props = Record<string, unknown>;
 
 export function el<K extends keyof HTMLElementTagNameMap>(
   tag: K,
@@ -10,11 +10,12 @@ export function el<K extends keyof HTMLElementTagNameMap>(
   const node = document.createElement(tag);
   if (props) {
     for (const [k, v] of Object.entries(props)) {
-      if (v === undefined || v === false) continue;
+      if (v === undefined || v === false || v === null) continue;
       if (k === 'class') node.className = String(v);
       else if (k === 'text') node.textContent = String(v);
       else if (k.startsWith('on') && typeof v === 'function') {
-        // not used for now
+        const evt = k.slice(2).toLowerCase();
+        node.addEventListener(evt, v as EventListener);
       } else node.setAttribute(k, String(v));
     }
   }
