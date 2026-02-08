@@ -1,0 +1,21 @@
+{
+  "name": "67",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "dev:signal": "wrangler dev --config signal-worker/wrangler.toml",
+    "deploy:signal": "wrangler deploy --config signal-worker/wrangler.toml",
+    "deploy:pages": "wrangler pages deploy dist --project-name 67"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.1",
+    "typescript": "^5.7.3",
+    "vite": "^6.1.0",
+    "wrangler": "^3.109.2"
+  }
+}

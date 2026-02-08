@@ -1,0 +1,187 @@
+/* Fonts: intentionally not the default "Inter/Roboto" vibe */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400..700&display=swap');
+
+:root {
+  --bg: #070807;
+  --panel: rgba(255, 255, 255, 0.06);
+  --panel-2: rgba(255, 255, 255, 0.035);
+  --stroke: rgba(255, 255, 255, 0.08);
+  --text: rgba(255, 255, 255, 0.88);
+  --muted: rgba(255, 255, 255, 0.52);
+  --muted-2: rgba(255, 255, 255, 0.32);
+  --accent: #77ff6b;
+  --accent-2: #b2ffa9;
+  --danger: #ff5c5c;
+
+  --radius: 14px;
+  --shadow: 0 20px 80px rgba(0, 0, 0, 0.65);
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: 'Instrument Sans', system-ui, -apple-system, Segoe UI, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  overflow-x: hidden;
+}
+
+/* Subtle dotted field + vignette, like the references */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 1px 1px, rgba(255,255,255,0.06) 1px, transparent 1px) 0 0 / 24px 24px,
+    radial-gradient(900px 600px at 50% 20%, rgba(119,255,107,0.10), transparent 60%),
+    radial-gradient(800px 700px at 50% 85%, rgba(255,255,255,0.06), transparent 60%),
+    radial-gradient(1200px 900px at 50% 50%, rgba(0,0,0,0.0), rgba(0,0,0,0.65) 70%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+a { color: inherit; }
+button, input { font: inherit; }
+
+#app {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 32px 18px;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.shell { width: min(980px, 100%); }
+
+.wrap {
+  width: 100%;
+  display: grid;
+  gap: 18px;
+  justify-items: center;
+}
+
+.brand { text-align: center; }
+.logo {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(56px, 7vw, 86px);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  display: inline-block;
+  padding-bottom: 6px;
+  position: relative;
+}
+.logo::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.75;
+}
+.tag {
+  margin-top: 10px;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.card {
+  width: min(640px, 100%);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, var(--panel), var(--panel-2));
+  border: 1px solid var(--stroke);
+  box-shadow: var(--shadow);
+  padding: 18px;
+}
+
+.tabs {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(0,0,0,0.35);
+}
+
+.tab {
+  appearance: none;
+  border: 0;
+  padding: 14px 16px;
+  cursor: pointer;
+  background: transparent;
+  color: var(--muted-2);
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.tab--active {
+  background: var(--accent);
+  color: rgba(0,0,0,0.86);
+}
+
+.slot { padding: 18px 2px 6px; }
+
+.drop {
+  border: 1px dashed rgba(255,255,255,0.14);
+  border-radius: 16px;
+  padding: 34px 18px;
+  background: rgba(0,0,0,0.25);
+  display: grid;
+  place-items: center;
+  gap: 10px;
+}
+
+.plus {
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.72);
+  font-size: 28px;
+  line-height: 1;
+}
+
+.dropText { text-align: center; }
+.muted { color: var(--muted); font-size: 14px; }
+.muted2 { margin-top: 6px; color: var(--muted-2); font-size: 12px; }
+
+.footer {
+  width: min(640px, 100%);
+  margin-top: 10px;
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+}
+
+.footerCaps {
+  color: rgba(255,255,255,0.26);
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+}
+
+.credit {
+  color: rgba(255,255,255,0.38);
+  font-size: 12px;
+}
+
+.creditLink {
+  color: var(--accent);
+  text-decoration: none;
+}
+.creditLink:hover { text-decoration: underline; }
