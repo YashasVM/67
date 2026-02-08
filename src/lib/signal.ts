@@ -45,16 +45,8 @@ export class SignalClient {
       const ws = new WebSocket(this.url);
       this.ws = ws;
 
-      const done = (err?: unknown) => {
-        ws.removeEventListener('open', onOpen);
-        ws.removeEventListener('error', onErr);
-        ws.removeEventListener('message', onMsg);
-        if (err) reject(err);
-        else resolve();
-      };
-
-      const onOpen = () => done();
-      const onErr = () => done(new Error('WebSocket failed to connect'));
+      const onOpen = () => resolve();
+      const onErr = () => reject(new Error('WebSocket failed to connect'));
       const onMsg = (e: MessageEvent) => {
         try {
           const evt = JSON.parse(String(e.data)) as SignalEvent;
