@@ -34,7 +34,13 @@ class App {
   private camOn = true;
   private quality: MediaQuality = '1080p';
 
-  constructor(private root: HTMLElement) {}
+  constructor(private root: HTMLElement) {
+    const fromHash = normalizeCode(location.hash.replace(/^#/, ''));
+    if (fromHash.length >= 6) {
+      this.state.mode = 'join';
+      this.state.code = fromHash;
+    }
+  }
 
   render() {
     this.root.innerHTML = '';
@@ -87,6 +93,11 @@ class App {
     }
 
     this.state.code = code;
+    try {
+      location.hash = code;
+    } catch {
+      // ignore
+    }
     this.state.error = undefined;
     this.state.status = 'Connecting…';
     this.state.view = 'call';
