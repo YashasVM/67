@@ -1,5 +1,5 @@
 export type SignalEvent =
-  | { t: 'hello'; v: number }
+  | { t: 'hello'; v: number; role: 'a' | 'b'; peers: number }
   | { t: 'peer-joined' }
   | { t: 'peer-left' }
   | { t: 'full' }
