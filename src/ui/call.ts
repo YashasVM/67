@@ -28,8 +28,16 @@ export function renderCall(opts: {
   const localVideo = el('video', { class: 'vid vid--local', autoplay: true, muted: true, playsinline: true });
 
   // Streams are assigned after node creation.
-  if (opts.remoteStream) (remoteVideo as HTMLVideoElement).srcObject = opts.remoteStream;
-  if (opts.localStream) (localVideo as HTMLVideoElement).srcObject = opts.localStream;
+  if (opts.remoteStream) {
+    const v = remoteVideo as HTMLVideoElement;
+    v.srcObject = opts.remoteStream;
+    void v.play().catch(() => {});
+  }
+  if (opts.localStream) {
+    const v = localVideo as HTMLVideoElement;
+    v.srcObject = opts.localStream;
+    void v.play().catch(() => {});
+  }
 
   const stage = el(
     'div',
