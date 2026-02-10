@@ -8,6 +8,11 @@ A free, no-login, high-quality 1:1 video calling app.
 - Designed to host the frontend on Cloudflare Pages (free tier)
 - Signaling via a Cloudflare Worker (Durable Object) (also free tier)
 
+## 🚀 Live Demo
+
+- **Web App:** https://9e70c36b.67-28b.pages.dev
+- **Signaling Server:** https://67-signal.yashasvm.workers.dev
+
 ## Local dev
 
 1. Install deps:
