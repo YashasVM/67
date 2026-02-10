@@ -32,7 +32,7 @@ class App {
 
   private micOn = true;
   private camOn = true;
-  private quality: MediaQuality = '1080p';
+  private quality: MediaQuality = 'auto';
 
   constructor(private root: HTMLElement) {
     const fromHash = normalizeCode(location.hash.replace(/^#/, ''));
@@ -40,6 +40,18 @@ class App {
       this.state.mode = 'join';
       this.state.code = fromHash;
     }
+
+    // Handle orientation changes to re-render video layout
+    window.addEventListener('orientationchange', () => {
+      setTimeout(() => this.render(), 100);
+    });
+
+    // Also listen to resize events for dynamic layout updates
+    let resizeTimeout: number;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = window.setTimeout(() => this.render(), 200);
+    });
   }
 
   render() {
